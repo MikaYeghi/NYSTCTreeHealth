@@ -1,0 +1,11 @@
+# Ignore data
+data
+
+# Saved models directory (contains weights)
+saved_models
+
+# __pycache__
+__pycache__/*
+dataset/__pycache__/*
+model_zoo/__pycache__/*
+utils/__pycache__/*
