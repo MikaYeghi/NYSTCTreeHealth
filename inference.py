@@ -8,7 +8,7 @@ from pprint import pprint
 from utils import load_model
 from dataset import NYTreesDataset
 from torch.utils.data import DataLoader
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score
 
 def run_checks(test_path: str, models_dir: str, model_name: str):
     # Check that the test data exists
@@ -63,6 +63,7 @@ def main():
 
     # Print the metrics
     pprint(classification_report(gt_list, preds_list))
+    print(f"Macro-averaged F1 score: {round(100 * f1_score(gt_list, preds_list, average='macro'), 2)}%.")
 
     # Save the metrics
     # TODO

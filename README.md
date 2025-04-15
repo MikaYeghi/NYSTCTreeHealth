@@ -26,7 +26,8 @@ conda activate nyt
 
 See: [EDA.ipynb](notebooks/EDA.ipynb). 
 
-The notebook contains various approaches to look at the data. Additionally, that analysis concludes that there is a serious flaw with the data, which mainly comes from the lack of features describing the trees locally.
+The notebook explores the dataset through various visual and statistical analyses. 
+The analysis reveals a serious flaw in the dataset: the lack of local features describing the trees. This leads to conflicting records --- for example, a tree with guards and no root problems can appear both healthy and unhealthy in different instances.
 
 ## Data
 
@@ -58,13 +59,21 @@ data
 
 ## Data Preprocessing
 
-Based on the observations in EDA, a set of preprocessing steps have been composed and placed into [preprocess.py](preprocess.py). Run the following command to preprocess the raw data.
+Based on the observations in EDA, a set of preprocessing steps have been composed and implemented in [preprocess.py](preprocess.py). To preprocess the raw data, run:
 
 ```
 python preprocess.py
 ```
 
-## Training
+## Model
+
+### Selection
+
+Here, we use a very simple hand-crafted shallow multi-layer perceptron to be able to handle the non-linearities in the underlying distributions, while acknowledging the absence of need in a very sophisticated model, because the dataset is small and the number of underlying variables is not too big.
+
+A more thorough approach would be to identify a set of models (e.g. include trees, transformer-based models, etc.) and rigorously assess the trade-offs between them by evaluating on the validation data.
+
+### Training
 
 The following command will train a shallow feed-forward multi-layer perceptron (MLP).
 
@@ -74,13 +83,32 @@ python train.py
 
 Model checkpoints are saved under `saved_models/`. 
 
-Here, we use a very simple hand-crafted shallow multi-layer perceptron to be able to handle the non-linearities in the underlying distributions, while acknowledging the absence of need in a very sophisticated model, because the dataset is small and the number of underlying variables is not too big.
+During training, evaluation results on the validation data are also printed. 
+The model was evaluated using macro-averaged F1 score to account for class imbalance across the "Good", "Fair", and "Poor" labels. On the validation set, the model achieved:
+- Macro F1 Score: 57%
 
-## Inference
+Note: the macro-averaged F1 score is the average of F1 scores for each class.
+
+### Inference
 
 The following command will run inference using the last best checkpoint.
 ```
 python inference.py
+```
+Running the script above will also print key metrics associated with evaluation on the test dataset. You should expect F1 score of around 40% (not great!).
+```
+              precision    recall  f1-score   support
+
+           0       0.28      0.42      0.33        60
+           1       0.88      0.65      0.75       260
+           2       0.11      0.33      0.16        18
+
+   micro avg       0.59      0.59      0.59       338
+   macro avg       0.42      0.47    **0.41**     338
+weighted avg       0.73      0.59      0.64       338
+ samples avg       0.59      0.59      0.59       338
+
+Macro-averaged F1 score: 41.44%.
 ```
 
 ## FastAPI Endpoint
