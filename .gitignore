@@ -4,6 +4,9 @@ data
 # Saved models directory (contains weights)
 saved_models
 
+# Virtual environment
+nyt_venv
+
 # __pycache__
 __pycache__/*
 dataset/__pycache__/*

@@ -13,13 +13,23 @@ First, clone the repository:
 git clone https://github.com/MikaYeghi/NYSTCTreeHealth.git
 ```
 
-Then, follow the commands below to configure the Python environment to be able to run the code.
+Then, follow the commands below to configure the Python environment to be able to run the code. You can either create a Conda environment or create the environment manually.
 
 ### Conda
 
 ```
 conda env create -f environment.yml --name nyt
 conda activate nyt
+```
+
+### Manual
+
+```
+python -m venv nyt_venv
+source nyt_venv/bin/activate
+pip install ipykernel pandas seaborn scikit-learn tqdm
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117 # install an older PyTorch version for compatibility
+pip install fastapi uvicorn
 ```
 
 ## Exploratory Data Analysis (EDA)
