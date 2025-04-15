@@ -8,6 +8,13 @@ Built using PyTorch and served with FastAPI.
 
 ## Installation 
 
+First, clone the repository:
+```
+git clone https://github.com/MikaYeghi/NYSTCTreeHealth.git
+```
+
+Then, follow the commands below to configure the Python environment to be able to run the code.
+
 ### Conda
 
 ```
